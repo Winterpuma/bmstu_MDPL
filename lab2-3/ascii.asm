@@ -1,0 +1,43 @@
+SSEG SEGMENT PARA STACK 'STACK'
+	DB 64 DUP(0)
+SSEG ENDS
+
+DSEG SEGMENT PARA 'DATA'
+	; DATA
+DSEG ENDS
+
+CSEG SEGMENT PARA 'CODE'
+	ASSUME CS:CSEG, DS:DSEG, SS:SSEG
+
+OUTPUT PROC
+	CMP DL, 9
+	JA M1
+	ADD DL, '0' ; if dec digit
+	JMP M2
+M1:	ADD DL, 'A' ; if hex digit
+	SUB DL, 10  ; minus offset
+M2:	MOV AH, 2
+	INT 21H
+	RET
+OUTPUT ENDP
+
+START	PROC FAR
+	MOV AH,7
+	INT 21H
+	
+	MOV DL, AL
+	MOV CL, 4
+	SHR DL, CL ; shift by 4 bytes to get first digit
+	MOV BL, AL ; after outputing dl al will change
+	CALL OUTPUT
+
+	MOV DL, BL
+	AND DL, 00001111B ; last digit
+	CALL OUTPUT	
+	
+	MOV 	AH,4CH
+	INT 	21H
+START ENDP
+CSEG ENDS
+
+END START

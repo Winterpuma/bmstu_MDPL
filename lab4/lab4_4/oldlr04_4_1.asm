@@ -11,7 +11,10 @@ SD1 ENDS
 
 SC1 SEGMENT para public 'CODE'
 	assume CS:SC1, DS:SD1
-main:	
+main:
+	mov ax, SD1
+	mov ds, ax
+	
 	jmp exit
 SC1 ENDS
 END main

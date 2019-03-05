@@ -8,20 +8,21 @@ SD2 ENDS
 SC2 SEGMENT para public 'CODE'
 	assume CS:SC2, DS:SD2
 exit:
-	mov ax, seg X
-	mov es, ax
-	mov bh, es:X
-
+	mov bx, ds
 	mov ax, SD2
 	mov ds, ax
-
-	xchg ah, Y
-	xchg ah, ES:X
-	xchg ah, Y	
-
 	mov ah, 2
 	mov dl, Y
 	int 21h	
+	
+	mov ah, Y
+	mov ds, bx
+	mov al, X
+	xchg ah, al
+	mov X, al
+	mov ax, SD2
+	mov ds, ax
+	mov Y, ah
 	
 	mov ax, 4c00h
 	int 21h

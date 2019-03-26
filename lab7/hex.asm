@@ -4,7 +4,6 @@ PUBLIC SHex
 DSEG	SEGMENT PARA PUBLIC 'DATA'
 	NEWLINE	DB	10, 13, '$'
         SYMBOLS DB '0123456789ABCDEF'
-        NUMBER  DB ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '$' 
 DSEG	ENDS
 
 CSEG	SEGMENT PARA PUBLIC 'CODE'

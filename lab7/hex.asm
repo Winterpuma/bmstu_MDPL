@@ -13,39 +13,42 @@ CSEG	SEGMENT PARA PUBLIC 'CODE'
 UHex	PROC NEAR
 PUSH BP
         PUSH SI
-	MOV  BP, SP
+		MOV  BP, SP
 
-        MOV DX, [BP + 8] ; DX = X
-		MOV SI, 16 ; maximum digit
-        MOV CL, 4 ; length of bitwise shift
+        MOV DX, [BP + 8] 
+		MOV SI, 16
+		MOV CX, 4
 
 LOOP_H:
-	MOV AX, 15 ; maximum value 15 = F
-	AND AX, DX ; mask with X, in AX we have last num of the X
+		MOV BL, 4
+
+		XCHG CL, BL 
+		ROL DX, CL 
+		XCHG CL, BL  
+
+		MOV AL, 0Fh ; AL = 15
+		AND AL, DL ; MASK FIRST DIGIT WITH 15
             
-        DEC SI 
-        MOV BX, OFFSET SYMBOLS ; table of correspondence - list of all symbols
-        MOV AL, AL ; initial value - last num of X
-        XLAT ; AL = [BX][AL], AL = SYMBOLS[AL]
+        MOV BX, OFFSET SYMBOLS  
+        XLAT
 		
-        MOV BX, OFFSET NUMBER 
-        MOV [BX + SI], AL ; SI - index, AL - num, put num num in NUMBER
-           
-	SHR DX, CL ; DX = X, CL = 4, delete last num
-	JNE  LOOP_H
-            
-        MOV DX, OFFSET NUMBER ; print dx
-        ADD DX, SI ; SI = 16 - num_length, we do it not to print zeros
-        MOV AH, 9
-        INT 21H
-            
-	MOV AH, 9 ; print newline
-	MOV DX, OFFSET NEWLINE
-	INT 21H
+		MOV CH, AL
+        XCHG  DL, CH
+		MOV AH, 2 ; PRINT DL, SO WE ACTUALLY PRINT AL
+		INT 21h
+		XCHG  DL, CH
 		
-	POP SI
-	POP BP
-	RET 4 ; delete X, SI
+		XOR CH, CH ; CLEAR CH
+		LOOP LOOP_H
+
+; PRINT NEWLINE
+		MOV AH, 9 
+		MOV DX, OFFSET NEWLINE
+		INT 21H
+		
+		POP SI
+		POP BP
+		RET 4
 UHex	ENDP
 		
 SHex	PROC NEAR

@@ -1,0 +1,15 @@
+.386
+.model FLAT, C
+
+PUBLIC p1
+.CODE
+p1:
+	
+	PUSH EBP
+	MOV EBP, ESP
+	MOV EAX, [EBP+8] ; N
+	MOV EBX, [EBP+12] ; NF
+	MOV EAX, [EBX]
+	POP EBP
+	RET
+END

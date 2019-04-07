@@ -4,6 +4,7 @@
 PUBLIC p1
 PUBLIC factorial_loop
 PUBLIC factorial_stack
+PUBLIC factorial_registers
 .CODE
 p1:
 	PUSH EBP
@@ -15,6 +16,7 @@ p1:
 	MOV EAX, [EBX] ; get new NF value 
 	POP EBP
 	RET
+
 
 factorial_loop:
 	PUSH EBP
@@ -30,46 +32,36 @@ LOOP1:
 	MOV dword ptr [EBX], EAX ; edit NF value by adress to result
 	POP EBP
 	RET
+	
 
-factorial_stack: ;take n and multiply nf by n in stack
+factorial_stack:
 	PUSH EBP
-	MOV EBP, ESP ; ESP - stack pointer
+	MOV	EBP, ESP
+	MOV	ECX, [EBP + 8] ; N
+	MOV	EBX, [EBP + 12] ; NF adress
 
-	;MOV EAX, [EBP+8] ; get N value from stack
-	MOV EBX, [EBP+12] ; get NF adress from stack
-	MOV ECX, [EBP+8] ; N
-	CMP ECX, 1
-	JE M1
+	CMP	ECX, 0
+	JE RET_1
+		
 	DEC ECX
-	PUSH EBX ; NF
-	PUSH ECX
+
+	PUSH EBX ; NF adress
+	PUSH ECX ; N - 1
 	CALL factorial_stack
-	
-	;ADD ESP, 8
-	;MOV ECX, [EBP+8]
-	;MUL ECX
-	;JMP M2
-M1:
-	MOV EAX, 1
-M2:
-	POP ESP
+	ADD	ESP, 8 ; edit stack pointer 
 
-	;POP EBP
-	RET
+	INC	ECX
+	MOV	EAX, DWORD PTR [EBX]
+	MUL	ECX
 
-	;POP EBX ; NF
-	;POP EAX ; N
-	
-	;MOV CX, [EBX] ; NF value
-	;XCHG EAX, ECX ; N in ECX
-	;MUL CX ; multiply AX and N, result in AX 
-	;MOV dword ptr [EBX], EAX ; edit NF value by adress to result
-	;DEC ECX
-	;JZ finish
-	;PUSH ECX ; N
-	;PUSH EBX ; NF
-	;CALL factorial_stack
-;finish:
-	;RET
+	MOV	DWORD PTR [EBX], EAX
+	JMP	EXIT
+
+RET_1:	
+	MOV	DWORD PTR [EBX], 1
+
+EXIT:
+	POP	EBP
+	RET	
 	
 END

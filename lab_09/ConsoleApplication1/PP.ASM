@@ -34,6 +34,25 @@ LOOP1:
 	RET
 	
 
+factorial_registers:
+	PUSH EBP
+	MOV	EBP, ESP
+	MOV EAX, 1
+	MOV	ECX, [EBP + 8] ; N
+	MOV	EBX, [EBP + 12] ; NF adress
+	CALL mm
+	POP EBP
+	RET
+mm:
+	JECXZ reg_exit
+	MUL ECX
+	DEC ECX
+	CALL mm
+reg_exit:
+	MOV	DWORD PTR [EBX], EAX
+	RET
+
+
 factorial_stack:
 	PUSH EBP
 	MOV	EBP, ESP

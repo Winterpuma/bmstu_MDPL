@@ -8,6 +8,6 @@ int N = 6, NF = 7;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	p1(N, &NF);
+	printf("%d", NF);
 	return 0;
 }
-

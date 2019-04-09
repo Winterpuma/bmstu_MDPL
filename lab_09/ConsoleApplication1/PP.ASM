@@ -40,16 +40,25 @@ factorial_registers:
 	MOV EAX, 1
 	MOV	ECX, [EBP + 8] ; N
 	MOV	EBX, [EBP + 12] ; NF adress
-	CALL mm
+
+	CMP ECX, 1 ; if got 1 or 0 
+	JBE finish
+
+	CALL reg_loop
+finish:
+	MOV	DWORD PTR [EBX], EAX
 	POP EBP
 	RET
-mm:
-	JECXZ reg_exit
+
+reg_loop:
+	CMP ECX, 1
+	JBE reg_exit
+
 	MUL ECX
 	DEC ECX
-	CALL mm
+	CALL reg_loop
+
 reg_exit:
-	MOV	DWORD PTR [EBX], EAX
 	RET
 
 
@@ -59,8 +68,8 @@ factorial_stack:
 	MOV	ECX, [EBP + 8] ; N
 	MOV	EBX, [EBP + 12] ; NF adress
 
-	CMP	ECX, 0
-	JE RET_1
+	CMP	ECX, 1
+	JBE ret_1
 		
 	DEC ECX
 
@@ -74,12 +83,12 @@ factorial_stack:
 	MUL	ECX
 
 	MOV	DWORD PTR [EBX], EAX
-	JMP	EXIT
+	JMP	exit
 
-RET_1:	
+ret_1:	
 	MOV	DWORD PTR [EBX], 1
 
-EXIT:
+exit:
 	POP	EBP
 	RET	
 	

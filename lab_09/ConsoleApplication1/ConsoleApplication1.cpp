@@ -7,11 +7,11 @@ extern "C" void factorial_loop(int N, int *g);
 extern "C" void factorial_stack(int N, int *g);
 extern "C" void factorial_registers(int N, int *g);
 
-int N = 7, NF = 1;
+int N = 6, NF;
 
 int main(int argc, char* argv[])
 {
- 	factorial_loop(N, &NF);
+ 	factorial_registers(N, &NF);
 	printf("Factorial of %d is %d", N, NF);
 	return 0;
 }

@@ -1,20 +1,11 @@
 #include "stdafx.h"
 #include <conio.h>
 #include <iostream>
-// Puma
+// puma
 #define N 5 // Size of matr to transpose
 #define B 8 // Size of all matr
 
 using namespace std;
-/*
-unsigned char matr[B][B] = {
-	{1,1,1,1,1,1},
-	{2,2,2,2,2,2},
-	{3,3,3,3,3,3},
-	{4,4,4,4,4,4},
-	{5,5,5,5,5,5},
-	{6,6,6,6,6,6}
-};*/
 
 unsigned char matr[B][B] = {
 	{1,1,1,1,1},
@@ -26,50 +17,48 @@ unsigned char matr[B][B] = {
 
 void print_matr()
 {
-	for (int i = 0; i < B; i++)
+	for (int i = 0; i < N; i++)
 	{
-		for (int j = 0; j < B; j++)
+		for (int j = 0; j < N; j++)
 			printf("%d ", matr[i][j]);
 		printf("\n");
 	}
 	printf("\n");
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char * argv[])
 {
 	print_matr();
 
-	_asm {
-		mov EBX, offset matr
-		mov ECX,N-1
-OuterLoop: 
-		lea ESI,[EBX+1]
-		lea EDI,[EBX+B]
+	_asm
+	{
+		MOV   EBX, OFFSET  matr
+		MOV   ECX, N-1
 
-InnerLoop:
-		XCHG AL,[ESI]
-		XCHG AL,[EDI]
-		XCHG AL,[ESI]
+	OuterLoop:
+		MOV EAX, ECX
+		MOV EDI, B
+		MOV ESI, 1
+	InnerLoop:
+		XCHG DH, [EBX][ESI]
+		XCHG DH, [EBX][EDI]
+		XCHG DH, [EBX][ESI]
 
-		inc ESI
-		ADD EDI,B
+		ADD EDI, B
+		INC ESI
+		LOOP InnerLoop
 
-		mov EAX,1
-		ADD EAX,ECX
+		ADD EBX, B+1
+		MOV ECX, EAX
+		LOOP OuterLoop
+	}
 
-		ADD EAX,EBX
-		cmp ESI,EAX
-		jb InnerLoop
-		jmp CheckOuterLoop
+	print_matr();
 
-CheckOuterLoop:
-		ADD EBX,B+1
-		Loop OuterLoop	
 	}
 
 	print_matr();
 
 	printf("\n");
-	system ("pause");
 	return 0;
 }

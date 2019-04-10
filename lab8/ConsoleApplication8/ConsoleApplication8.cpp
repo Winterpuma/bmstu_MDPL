@@ -55,6 +55,14 @@ int main(int argc, char * argv[])
 
 	print_matr();
 
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = i + 1; j < N; j++)
+		{
+			char tmp = matr[i][j];
+			matr[i][j] = matr[j][i];
+			matr[j][i] = tmp;
+		}
 	}
 
 	print_matr();

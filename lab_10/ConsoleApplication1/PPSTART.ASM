@@ -1,0 +1,37 @@
+.386
+.model FLAT,C
+PUBLIC START, S1
+extern COUNT:near, SetCler:near, A_B:near
+
+.DATA
+S 	DD 0,0,0,0
+S1 	DD 00001111000011110000111100001111B,1010101B 
+           ;0-38 - –¿«–ﬂƒ€ —“–Œ »
+S2 	DD 00111100001111000011110000111100B,1000001B 
+           ;0-38 - –¿«–ﬂƒ€ —“–Œ »
+L DD 39;= ƒÀ»Õ¿ —“–Œ »
+N	DD	34
+P	DD	1
+
+.CODE
+
+START:
+
+	PUSH L
+	PUSH OFFSET S1	
+	
+	CALL COUNT
+	
+	PUSH OFFSET S2
+	PUSH N
+	PUSH P	
+	CALL SetCler
+	
+	PUSH OFFSET S1
+	PUSH OFFSET S2
+	PUSH L
+
+	CALL A_B
+
+RET;
+END

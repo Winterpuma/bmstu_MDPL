@@ -19,6 +19,7 @@ A_B PROC
 
 	MOV ECX, 32
 	DIV  ECX ; странное что-то с делением (старший бит EAX = 1. як фиксить - хз)
+	AND EAX, 15d ; ne kostil))))
 	MOV ECX, EAX	
 	CMP EDX, 0
 	JE MAIN_LOOP

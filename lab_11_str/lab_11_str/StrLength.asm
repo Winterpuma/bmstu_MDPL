@@ -8,15 +8,18 @@ public StrLength
 StrLength:
 	push ebp
 	mov ebp, esp
+
 	push edi
 	mov edi, [ebp + 8]
-	mov al, 0
-	cld
-	mov ecx, -1
-	repne scasb
-	neg ecx
-	sub ecx, 2
+	mov al, 0 ; end of string
+
+	cld ; CF = 0
+	mov ecx, -1 ; ecx = 11111111
+	repne scasb ; going through memory while not al symbol and ecx != 0
+	neg ecx 
+	sub ecx, 2 ; get the actual len
 	mov eax, ecx
+
 	pop edi
 	pop ebp
 	ret

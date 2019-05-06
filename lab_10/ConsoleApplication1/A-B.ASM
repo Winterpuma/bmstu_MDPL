@@ -1,6 +1,7 @@
-;—оставить подпрограмму с именем A_B типа
+; —оставить подпрограмму с именем A_B типа
 ;   Procedure (var A: LONGWORD; const B:LONGWORD; L:LONGWORD)
-;выполн€ющую вычитание битовых строк A:=A \ B длины L. 
+; Subtruction of byte strings A:=A \ B of len L.
+
 .386
 .model FLAT,C
 PUBLIC A_B
@@ -12,9 +13,9 @@ A_B PROC
 	MOV EBP,ESP		 
 	PUSH EBX		
 
-	MOV ESI,[EBP+16] ; строка A	
-	MOV EBX,[EBP+12] ; строка B
-	MOV EAX,[EBP+8] ; длина строки
+	MOV ESI,[EBP+16] ; str A	
+	MOV EBX,[EBP+12] ; str B
+	MOV EAX,[EBP+8] ; strlen
 
 	XOR EDX, EDX
 
@@ -24,10 +25,10 @@ A_B PROC
 
 
 MAIN_LOOP:
-	MOV EAX,[ESI] ; строка A
-	MOV EDX,[EBX] ; строка B
+	MOV EAX,[ESI] ; str A
+	MOV EDX,[EBX] ; str B
 
-	NOT EDX  ; строка B
+	NOT EDX  ; str B
 	AND EAX, EDX
 
 	MOV [ESI], EAX
@@ -51,9 +52,9 @@ AVB PROC
 	MOV EBP, ESP
 	PUSH EBX
 
-	MOV ESI, [EBP + 16]; строка A
-	MOV EBX, [EBP + 12]; строка B
-	MOV EAX, [EBP + 8]; длина строки
+	MOV ESI, [EBP + 16] ; str A
+	MOV EBX, [EBP + 12] ; str B
+	MOV EAX, [EBP + 8] ; strlen
 
 	XOR EDX, EDX
 
@@ -63,8 +64,8 @@ AVB PROC
 
 
 MAIN_LOOP :
-	MOV EAX, [ESI]; строка A
-	MOV EDX, [EBX]; строка B
+	MOV EAX, [ESI]; str A
+	MOV EDX, [EBX]; str B
 
 	OR EAX, EDX
 

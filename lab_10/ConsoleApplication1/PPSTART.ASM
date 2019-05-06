@@ -1,7 +1,7 @@
 .386
 .model FLAT,C
 PUBLIC START, S1
-extern COUNT:near, SetCler:near, A_B:near
+extern COUNT:near, SetCler:near, A_B:near, AVB:near
 
 .DATA
 S 	DD 0,0,0,0
@@ -32,6 +32,12 @@ START:
 	PUSH L
 
 	CALL A_B
+
+	PUSH OFFSET S1
+	PUSH OFFSET S2
+	PUSH L
+
+	CALL AVB
 
 RET;
 END

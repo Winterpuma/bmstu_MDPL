@@ -7,23 +7,20 @@ PUBLIC A_B
 
 .CODE
 A_B PROC
-	
-  	; соглашение
-	PUSH EBP		; сохранение значение предыдущей функции 
-	MOV EBP,ESP		; записываем текущую позицию в стеке 
-	PUSH EBX		; сохраняем прежние
+
+	PUSH EBP		 
+	MOV EBP,ESP		 
+	PUSH EBX		
 
 	MOV ESI,[EBP+16] ; строка A	
 	MOV EBX,[EBP+12] ; строка B
 	MOV EAX,[EBP+8] ; длина строки
 
+	XOR EDX, EDX
+
 	MOV ECX, 32
-	DIV  ECX ; странное что-то с делением (старший бит EAX = 1. як фиксить - хз)
-	AND EAX, 15d ; ne kostil))))
-	MOV ECX, EAX	
-	CMP EDX, 0
-	JE MAIN_LOOP
-	INC ECX
+	DIV  ECX
+	MOV ECX, EAX
 
 
 MAIN_LOOP:
@@ -31,7 +28,7 @@ MAIN_LOOP:
 	MOV EDX,[EBX] ; строка B
 
 	NOT EDX  ; строка B
-	AND EAX, EDX; toA
+	AND EAX, EDX
 
 	MOV [ESI], EAX
 
@@ -45,5 +42,43 @@ MAIN_LOOP:
 	MOV ESP,EBP
 	POP EBP
 	RET 12
+
 A_B ENDP
+
+AVB PROC
+
+	PUSH EBP
+	MOV EBP, ESP
+	PUSH EBX
+
+	MOV ESI, [EBP + 16]; строка A
+	MOV EBX, [EBP + 12]; строка B
+	MOV EAX, [EBP + 8]; длина строки
+
+	XOR EDX, EDX
+
+	MOV ECX, 32
+	DIV  ECX
+	MOV ECX, EAX
+
+
+MAIN_LOOP :
+	MOV EAX, [ESI]; строка A
+	MOV EDX, [EBX]; строка B
+
+	OR EAX, EDX
+
+	MOV[ESI], EAX
+
+	ADD ESI, 4
+	ADD EBX, 4
+
+	LOOP MAIN_LOOP
+
+
+	POP EBX
+	MOV ESP, EBP
+	POP EBP
+	RET 12
+AVB ENDP
 END

@@ -6,7 +6,7 @@
 
 extern "C" int StrLength(char *s);
 extern "C" char* CopyStr(char *s1, char *s2, int L); // s1 - источник, s2 - приёмник
-extern "C" char* DelSpace(char *s);
+extern "C" int DelSpace(char *s);
 
 void print_out(char* str, int i)
 {
@@ -39,7 +39,8 @@ int main()
 	new_line();
 
 	print_out(str3, 3);
-	tmpPtr = DelSpace(str3);
+	int len = DelSpace(str3);
+	printf("returned new len: %d\n", len);
 	print_out(str3, 3);
 
 	return 0;

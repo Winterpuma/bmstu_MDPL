@@ -10,25 +10,25 @@ CopyStr:
 	mov ebp, esp
 	push edi
 
-	mov esi, [ebp + 8]
-	mov edi, [ebp + 12]
-	mov ecx, [ebp + 16]
+	mov esi, [ebp + 8] ; s1
+	mov edi, [ebp + 12] ; s2
+	mov ecx, [ebp + 16] ; len
 	mov eax, edi
 
-	sub edi, esi
+	sub edi, esi ; find which one is bigger
 	cmp edi, 0
-	jge edi_pos
+	jge edi_pos ; if edi is bigger then esi
 	neg edi
 
 edi_pos:
 	cmp ecx, edi
-	jge maybe_go_left
+	jge maybe_go_left ; if strings may overlap
 	jmp go_right
 
 maybe_go_left:
 	mov edi, eax
 	cmp edi, esi
-	jge go_left
+	jge go_left ; if overlap
 	jmp go_right
 
 go_left:
@@ -38,15 +38,15 @@ go_left:
 	inc ecx
 	mov bh, 0
 	mov [edi + 1], bh	
-	std
-	rep movsb
+	std ; go left
+	rep movsb ; Write to ES:EDI block of ECX bytes from DS:ESI
 	jmp done
 
 go_right:
 	mov edi, eax
-	cld
-	rep movsb
-	mov [edi], cx; cx всегда 0
+	cld ; go right
+	rep movsb ; Write to ES:EDI block of ECX bytes from DS:ESI
+	mov [edi], cx; cx is always 0
 	jmp done
 
 done:

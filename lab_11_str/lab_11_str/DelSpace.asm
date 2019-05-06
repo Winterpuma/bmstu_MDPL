@@ -17,24 +17,24 @@ DelSpace:
 	mov al, ' ' ; our symbol to compare with
 
 	cld ; CF = 0 go right direction
-	repe scasb ; Ќайти байт не равный AL в блоке из ECX байт по адресу ES:EDI (while edi symbol != al symbol & ecx != 0)
+	repe scasb ; Fing byte != to AL in block of ECX bytes by adress ES:EDI (while edi symbol != al symbol & ecx != 0)
 	mov esi, edi 
 	dec esi ; pointer to first meaningfull symbol
 
 	mov al, 0 ; find end of string
 	mov cx, -1
-	repne scasb ; Ќайти байт равный AL в блоке из ECX байт по адресу ES:EDI
+	repne scasb ; Find byte == to AL in clock of ECX bytes by adress ES:EDI
 	neg cx ; 
 	sub edi, 2 ; last non zero symbol
 
 	mov al, ' '
 	std ; left direction
-	repe scasb ; Ќайти байт не равный AL в блоке из ECX байт по адресу ES:EDI
+	repe scasb ; Fing byte != to AL in block of ECX bytes by adress ES:EDI
 	mov ax, cx ; len of new string
 	mov edi, ebx ; beginning of string
 
 	cld ; right direction
-	rep movsb ; «аписать по адресу ES:EDI блок из ECX байт, считываемый по адресу DS:ESI
+	rep movsb ; Write to ES:EDI block of ECX bytes from DS:ESII
 	mov cx, 0
 	mov [edi], cx ; set end of string
 

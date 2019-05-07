@@ -12,3 +12,6 @@
 
 [№8 Транспонирование части матрицы матрицы (C + asm)](https://github.com/Winterpuma/bmstu_MDPL/tree/master/lab8)  
 [№9 Факториал разными способами (С + asm)](https://github.com/Winterpuma/bmstu_MDPL/tree/master/lab_09)
+
+[№10 Битовые строки (Количество единиц, установка разряда, вычитание, умножение](https://github.com/Winterpuma/bmstu_MDPL/tree/master/lab_10)  
+[№11 Строки (Длина, копирование, удаление пробелов)](https://github.com/Winterpuma/bmstu_MDPL/tree/master/lab_11_str)

@@ -34,7 +34,7 @@ DelSpace:
 	mov edi, ebx ; beginning of string
 
 	cld ; right direction
-	rep movsb ; Write to ES:EDI block of ECX bytes from DS:ESII
+	rep movsb ; Write to ES:EDI block of ECX bytes from DS:ESI
 	mov cx, 0
 	mov [edi], cx ; set end of string
 

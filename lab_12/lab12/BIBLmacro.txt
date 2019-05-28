@@ -1,0 +1,83 @@
+PUSHR MACRO RG
+	i = 0
+	IRP REG, <RG>
+		@CatStr(dumb%i) EQU REG
+		i = i + 1
+		PUSH REG
+	ENDM
+ENDM   
+
+POPR MACRO RG
+	j = i
+	REPEAT j
+		i = i - 1
+		POP @CatStr(dumb%i)
+	ENDM
+ENDM
+
+XCHG_B MACRO A, B
+	XCHG AL, A
+	XCHG AL, B
+	XCHG AL, A
+ENDM
+
+XCHG_B MACRO A, B
+	XCHG AX, A
+	XCHG AX, B
+	XCHG A, A
+ENDM
+
+XCHG_B MACRO A, B
+	XCHG EAX, A
+	XCHG EAX, B
+	XCHG EAX, A
+ENDM
+
+MOSHBL MACRO NAME, TYPE, PARAMS, REGS
+NAME:
+	PUSH EBP
+	MOV EBP, ESP 
+
+	; push regs
+	IFNB <REGS>
+		PUSHR <REGS>
+	ELSE
+		PUSHR <EBX, ESI, EDI>
+	ENDIF
+
+	; set
+	IFNB <PARAMS>
+		k = 8
+		IRP PARAM, <PARAMS>
+			PARAM EQU [EBP + k]
+			k = k + 4
+		ENDM
+	ENDIF
+
+	;MOV EBP, ESP ;??
+
+	; type = TYPE
+	; code
+
+	; push regs
+	IFNB <REGS>
+		POPR <REGS>
+	ELSE
+		POPR <EBX, ESI, EDI>
+	ENDIF
+
+	; return value
+	IFIDN <TYPE>, <VOID>
+		; don't change eax
+	ENDIF
+	IFIDN <TYPE>, <DATA>
+		MOV EAX, ? ; return int
+	ENDIF
+	IFIDN <TYPE>, <PTR>
+		MOV EAX, ? ; return pointer
+	ENDIF
+	
+	POP EBP
+	RET
+ENDM
+

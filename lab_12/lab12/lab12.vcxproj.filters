@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="BIBLmacro.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -35,6 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <MASM Include="MacroLib.asm">
+      <Filter>Файлы исходного кода</Filter>
+    </MASM>
+    <MASM Include="func_template.asm">
       <Filter>Файлы исходного кода</Filter>
     </MASM>
   </ItemGroup>
